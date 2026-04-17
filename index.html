@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MathQuiz</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/map.css" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <button id="audio-toggle" title="Ativar/Desativar sons">🔊</button>
+
+  <!-- TELA HOME -->
+  <div id="screen-home" class="screen">
+
+    <div class="home-deco-left">
+      <div class="deco-line" style="width:60px"></div>
+      <div class="deco-line" style="width:40px"></div>
+      <div class="deco-line" style="width:80px"></div>
+      <div class="deco-line" style="width:30px"></div>
+      <div class="deco-line" style="width:55px"></div>
+    </div>
+
+    <div class="home-deco-right">
+      <div class="deco-line" style="width:60px"></div>
+      <div class="deco-line" style="width:35px"></div>
+      <div class="deco-line" style="width:75px"></div>
+      <div class="deco-line" style="width:45px"></div>
+      <div class="deco-line" style="width:50px"></div>
+    </div>
+
+    <div class="home-content">
+
+      <div class="home-title-wrap">
+        <h1 class="home-title">MATH QUIZ</h1>
+        <p class="home-subtitle">Desafio Numérico</p>
+      </div>
+
+      <div class="character-wrap">
+        <div class="speech-bubble" id="speech-bubble">Vamos contar! 🚀</div>
+
+        <svg id="character-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#4fc3f7"/>
+              <stop offset="100%" stop-color="#7b2fbf"/>
+            </linearGradient>
+            <linearGradient id="faceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%"   stop-color="#dce8ff"/>
+              <stop offset="100%" stop-color="#a8d4f5"/>
+            </linearGradient>
+            <filter id="bodyGlow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+
+          <rect id="arm-left" x="6" y="36" width="14" height="9" rx="4" fill="url(#bodyGrad)" opacity="0.9">
+            <animateTransform attributeName="transform" type="rotate" values="0 13 40; -18 13 40; 0 13 40" dur="1.8s" repeatCount="indefinite"/>
+          </rect>
+          <rect id="arm-right" x="80" y="36" width="14" height="9" rx="4" fill="url(#bodyGrad)" opacity="0.9">
+            <animateTransform attributeName="transform" type="rotate" values="0 87 40; 18 87 40; 0 87 40" dur="1.8s" repeatCount="indefinite"/>
+          </rect>
+
+          <rect x="18" y="18" width="64" height="72" rx="14" fill="url(#bodyGrad)" filter="url(#bodyGlow)"/>
+          <rect x="18" y="18" width="64" height="72" rx="14" fill="none" stroke="#4fc3f7" stroke-width="1.5" opacity="0.6"/>
+          <rect x="24" y="28" width="52" height="48" rx="10" fill="url(#faceGrad)" opacity="0.95"/>
+          <rect x="26" y="30" width="20" height="8" rx="4" fill="white" opacity="0.18"/>
+
+          <circle id="char-eye-left"  cx="36" cy="52" r="6"   fill="#0a0f2c"/>
+          <circle cx="36" cy="52" r="3.5" fill="#4fc3f7">
+            <animate attributeName="r" values="3.5;3.8;3.5" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="37.5" cy="50.5" r="1.2" fill="white" opacity="0.8"/>
+
+          <circle id="char-eye-right" cx="64" cy="52" r="6"   fill="#0a0f2c"/>
+          <circle cx="64" cy="52" r="3.5" fill="#4fc3f7">
+            <animate attributeName="r" values="3.5;3.8;3.5" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="65.5" cy="50.5" r="1.2" fill="white" opacity="0.8"/>
+
+          <ellipse id="char-blush" cx="28" cy="60" rx="5" ry="3" fill="#c084fc" opacity="0.7"/>
+          <ellipse cx="72" cy="60" rx="5" ry="3" fill="#c084fc" opacity="0.7"/>
+
+          <path id="char-mouth" d="M 38 70 Q 50 80 62 70" stroke="#4fc3f7" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+          <line x1="30" y1="82" x2="70" y2="82" stroke="#4fc3f7" stroke-width="1" opacity="0.3"/>
+          <circle cx="34" cy="82" r="2" fill="#4fc3f7" opacity="0.5">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="66" cy="82" r="2" fill="#c084fc" opacity="0.5">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+
+          <rect x="28" y="88" width="16" height="28" rx="6" fill="url(#bodyGrad)" opacity="0.9">
+            <animateTransform attributeName="transform" type="rotate" values="0 36 90; 8 36 90; 0 36 90; -5 36 90; 0 36 90" dur="1.8s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="56" y="88" width="16" height="28" rx="6" fill="url(#bodyGrad)" opacity="0.9">
+            <animateTransform attributeName="transform" type="rotate" values="0 64 90; -8 64 90; 0 64 90; 5 64 90; 0 64 90" dur="1.8s" repeatCount="indefinite"/>
+          </rect>
+
+          <ellipse cx="36" cy="118" rx="10" ry="5" fill="#4fc3f7" opacity="0.8"/>
+          <ellipse cx="64" cy="118" rx="10" ry="5" fill="#4fc3f7" opacity="0.8"/>
+        </svg>
+
+        <div class="character-platform"></div>
+      </div>
+
+      <div class="home-buttons">
+        <button class="btn btn-play" onclick="Game.startGame()">
+          ▶ &nbsp;JOGAR
+        </button>
+        <button id="btn-continue" class="btn btn-secondary btn-continue"
+                onclick="Game.continueGame()" style="display:none">
+          ↩ &nbsp;Continuar
+        </button>
+        <p class="saved-info" id="saved-info" style="display:none"></p>
+      </div>
+
+    </div>
+
+    <span class="home-version">v1.0 · MATHQUIZ</span>
+  </div>
+
+  <!-- TELA MAPA DE FASES -->
+  <div id="screen-map" class="screen"></div>
+
+  <!-- TELA QUIZ -->
+  <div id="screen-quiz" class="screen"></div>
+
+  <!-- TELA RESULTADO -->
+  <div id="screen-result" class="screen"></div>
+
+  <!-- TELA FINAL -->
+  <div id="screen-final" class="screen"></div>
+
+  <!-- POPUP FEEDBACK -->
+  <div id="popup-feedback" class="popup" style="display:none;"></div>
+
+  <script src="gameData.js"></script>
+  <script src="saveSystem.js"></script>
+  <script src="audioSystem.js"></script>
+  <script src="particles.js"></script>
+  <script src="home.js"></script>
+  <script src="map.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
