@@ -1,0 +1,408 @@
+/* ============================================================
+   MAP.CSS — Tela do Mapa de Fases
+   ============================================================ */
+
+/* ---- TELA MAPA ---- */
+#screen-map {
+  z-index: 1;
+  /* .scrollable (no base.css) cuida do overflow e alinhamento */
+}
+
+#screen-map::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79, 195, 247, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 195, 247, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- HEADER DO MAPA ---- */
+.map-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(10, 15, 44, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(79, 195, 247, 0.15);
+  flex-shrink: 0;
+}
+
+.map-header-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--blue-neon), var(--violet-neon));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+}
+
+.map-total-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--blue-crystal);
+  letter-spacing: 1px;
+}
+
+.map-total-score span {
+  color: var(--violet-neon);
+  font-size: 1rem;
+}
+
+.btn-back-home {
+  background: transparent;
+  border: 1px solid rgba(79, 195, 247, 0.3);
+  color: var(--blue-crystal);
+  font-size: 0.75rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.btn-back-home:hover {
+  background: rgba(79, 195, 247, 0.1);
+  border-color: var(--blue-neon);
+  box-shadow: var(--glow-blue);
+}
+
+/* ---- CONTEÚDO DO MAPA ---- */
+.map-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  flex: 1;
+}
+
+/* ---- SEÇÃO DE OPERADOR ---- */
+.operator-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: sectionFadeIn 0.5s ease both;
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.operator-section:nth-child(2) { animation-delay: 0.1s; }
+.operator-section:nth-child(3) { animation-delay: 0.2s; }
+.operator-section:nth-child(4) { animation-delay: 0.3s; }
+
+/* ---- CABEÇALHO DO OPERADOR ---- */
+.operator-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.operator-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+}
+
+.operator-icon.sum    { background: rgba(79, 195, 247, 0.15);  color: var(--blue-neon);    border: 1.5px solid rgba(79, 195, 247, 0.4); }
+.operator-icon.sub    { background: rgba(192, 132, 252, 0.15); color: var(--violet-neon);  border: 1.5px solid rgba(192, 132, 252, 0.4); }
+.operator-icon.mul    { background: rgba(233, 213, 255, 0.1);  color: var(--lilac);        border: 1.5px solid rgba(233, 213, 255, 0.3); }
+.operator-icon.div    { background: rgba(168, 212, 245, 0.12); color: var(--blue-crystal); border: 1.5px solid rgba(168, 212, 245, 0.35); }
+
+.operator-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.operator-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: 1px;
+}
+
+.operator-progress-text {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--silver);
+  letter-spacing: 0.5px;
+}
+
+.operator-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  max-width: 180px;
+}
+
+.operator-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.8s var(--ease-out);
+}
+
+.operator-progress-fill.sum { background: linear-gradient(90deg, var(--blue-neon), #81d4fa); }
+.operator-progress-fill.sub { background: linear-gradient(90deg, var(--violet-neon), #d8b4fe); }
+.operator-progress-fill.mul { background: linear-gradient(90deg, var(--lilac), #f3e8ff); }
+.operator-progress-fill.div { background: linear-gradient(90deg, var(--blue-crystal), #bae6fd); }
+
+/* ---- GRID DE FASES ---- */
+.phases-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+/* ---- CARD DE FASE ---- */
+.phase-card {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform var(--duration-base) var(--ease-spring),
+              box-shadow var(--duration-base) var(--ease-out);
+  border: 1.5px solid transparent;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; /* remove flash azul no toque mobile */
+  touch-action: manipulation;
+}
+
+/* Estado: bloqueada */
+.phase-card.locked {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Estado: disponível */
+.phase-card.available {
+  background: rgba(79, 195, 247, 0.07);
+  border-color: rgba(79, 195, 247, 0.3);
+}
+
+.phase-card.available:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: var(--glow-blue), 0 8px 24px rgba(0,0,0,0.4);
+  border-color: var(--blue-neon);
+}
+
+/* toque em mobile — sem hover, usa active */
+.phase-card.available:active,
+.phase-card.completed:active {
+  transform: scale(0.94);
+  opacity: 0.85;
+}
+
+/* Estado: completada */
+.phase-card.completed {
+  background: rgba(79, 195, 247, 0.1);
+  border-color: rgba(79, 195, 247, 0.5);
+}
+
+.phase-card.completed:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 16px rgba(79, 195, 247, 0.3), 0 8px 24px rgba(0,0,0,0.3);
+  border-color: var(--blue-neon);
+}
+
+/* Variações por operador */
+.operator-section:nth-child(2) .phase-card.completed  { border-color: rgba(192,132,252,0.5); background: rgba(192,132,252,0.1); }
+.operator-section:nth-child(2) .phase-card.completed:hover { box-shadow: 0 0 16px rgba(192,132,252,0.3), 0 8px 24px rgba(0,0,0,0.3); border-color: var(--violet-neon); }
+.operator-section:nth-child(2) .phase-card.available  { background: rgba(192,132,252,0.07); border-color: rgba(192,132,252,0.3); }
+.operator-section:nth-child(2) .phase-card.available:hover { box-shadow: var(--glow-violet), 0 8px 24px rgba(0,0,0,0.4); border-color: var(--violet-neon); }
+
+.operator-section:nth-child(3) .phase-card.completed  { border-color: rgba(233,213,255,0.4); background: rgba(233,213,255,0.07); }
+.operator-section:nth-child(3) .phase-card.available  { background: rgba(233,213,255,0.05);  border-color: rgba(233,213,255,0.25); }
+
+.operator-section:nth-child(4) .phase-card.completed  { border-color: rgba(168,212,245,0.4); background: rgba(168,212,245,0.07); }
+.operator-section:nth-child(4) .phase-card.available  { background: rgba(168,212,245,0.05);  border-color: rgba(168,212,245,0.25); }
+
+/* Número da fase */
+.phase-number {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.phase-card.locked .phase-number { color: var(--color-text-subtle); }
+
+/* Ícone de cadeado */
+.phase-lock-icon {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  opacity: 0.5;
+}
+
+/* Estrelas */
+.phase-stars {
+  display: flex;
+  gap: 2px;
+  font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+  line-height: 1;
+}
+
+.star { opacity: 0.2; }
+.star.filled { opacity: 1; }
+
+/* Fase atual — pulsa */
+.phase-card.current {
+  animation: phasePulse 2s ease-in-out infinite;
+}
+
+@keyframes phasePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
+  50%       { box-shadow: 0 0 0 6px rgba(79, 195, 247, 0.15); }
+}
+
+.operator-section:nth-child(2) .phase-card.current {
+  animation: phasePulseViolet 2s ease-in-out infinite;
+}
+
+@keyframes phasePulseViolet {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(192, 132, 252, 0); }
+  50%       { box-shadow: 0 0 0 6px rgba(192, 132, 252, 0.15); }
+}
+
+/* ---- DIVISOR ENTRE SEÇÕES ---- */
+.operator-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.15), transparent);
+}
+
+/* ============================================================
+   RESPONSIVIDADE MOBILE
+   ============================================================ */
+
+/* Telas médias (tablets) */
+@media (max-width: 768px) {
+  .map-content {
+    padding: 24px 16px 80px;
+    gap: 36px;
+  }
+
+  .operator-progress-bar {
+    max-width: 120px;
+  }
+}
+
+/* Celular — regra principal */
+@media (max-width: 600px) {
+  .map-header {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .map-header-title { font-size: 0.95rem; }
+
+  .map-total-score {
+    font-size: 0.78rem;
+  }
+
+  .map-total-score span { font-size: 0.9rem; }
+
+  .btn-back-home {
+    font-size: 0.7rem;
+    padding: 5px 10px;
+  }
+
+  .map-content {
+    padding: 20px 14px 80px;
+    gap: 28px;
+  }
+
+  /* Operador header compacto */
+  .operator-header { gap: 10px; }
+
+  .operator-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .operator-name { font-size: 0.95rem; }
+  .operator-progress-text { font-size: 0.68rem; }
+
+  /* Esconde barra de progresso linear, fica no texto */
+  .operator-progress-bar { display: none; }
+
+  /* Grid: 5 por linha no celular — cards menores */
+  .phases-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+  }
+
+  .phase-card {
+    border-radius: var(--radius-md);
+    border-width: 1px;
+  }
+
+  .phase-number {
+    font-size: clamp(0.85rem, 4.5vw, 1.1rem);
+  }
+
+  .phase-lock-icon { font-size: 0.75rem; }
+
+  .phase-stars {
+    font-size: clamp(0.42rem, 2vw, 0.6rem);
+    gap: 1px;
+  }
+}
+
+/* Celulares muito pequenos (< 380px) */
+@media (max-width: 380px) {
+  .map-content { padding: 16px 10px 80px; gap: 24px; }
+
+  .phases-grid { gap: 5px; }
+
+  .phase-number { font-size: 0.8rem; }
+
+  .operator-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+}
